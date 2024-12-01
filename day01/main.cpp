@@ -1,7 +1,6 @@
 #include <cmath>
 #include <fstream>
 #include <iostream>
-#include <map>
 #include <sstream>
 #include <vector>
 
@@ -37,26 +36,10 @@ int main()
    std::cout << sum;
 
    // PART TWO
-   std::map<int32_t, int32_t> counter;
-   for ( const auto& n : l )
-   {
-      counter[ n ] = 0;
-   }
-
-   for ( const auto& n : r )
-   {
-      if ( counter.count( n ) == 0 )
-      {
-         continue;
-      }
-
-      counter[ n ]++;
-   }
-
    sum = 0;
    for ( const auto& i : l )
    {
-      sum += counter[ i ] * i;
+      sum += i * std::count( r.begin(), r.end(), i );
    }
 
    std::cout << "\nPART 2\n" << sum;
