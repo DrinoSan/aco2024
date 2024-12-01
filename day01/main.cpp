@@ -1,8 +1,9 @@
-#include <iostream>
-#include <sstream>
-#include <fstream>
-#include <vector>
 #include <cmath>
+#include <fstream>
+#include <iostream>
+#include <map>
+#include <sstream>
+#include <vector>
 
 #define TEST "test"
 #define INPUT "input"
@@ -30,10 +31,33 @@ int main()
    int32_t sum;
    for( size_t i = 0; i < l.size(); ++i )
    {
-      std::cout << l[i] << " " << r[i] << "\n";
       sum += std::abs( l[i] - r[i] );
    }
 
    std::cout << sum;
 
+   // PART TWO
+   std::map<int32_t, int32_t> counter;
+   for ( const auto& n : l )
+   {
+      counter[ n ] = 0;
+   }
+
+   for ( const auto& n : r )
+   {
+      if ( counter.count( n ) == 0 )
+      {
+         continue;
+      }
+
+      counter[ n ]++;
+   }
+
+   sum = 0;
+   for ( const auto& i : l )
+   {
+      sum += counter[ i ] * i;
+   }
+
+   std::cout << "\nPART 2\n" << sum;
 }
