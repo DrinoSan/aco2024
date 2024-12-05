@@ -59,22 +59,40 @@ int main()
       numbers.push_back( str );
 
       bool allValid{ true };
+
+      // Outer loop to iterate over the numbers which will be checked --> Index
+      //
+      // I Inner loop is there to check all numbers from begining up to the
+      // index of the outer loop ( Index I )
+      //
+      // --- Inner loop checks if any precondition of numbers[ i ] comes before
+      // numbers[ i ] if so we take that number and move it behind numbers[ i ]
       for ( size_t i = 0; i < numbers.size(); ++i )
       {
          // Check all numbers before current number and check if preconditions
-         // hold
+         // hold. <--- this was for part one
          auto precVec = prec[ numbers[ i ] ];
          for ( size_t j = 0; j <= i; ++j )
          {
-            if ( std::find( precVec.begin(), precVec.end(), numbers[ j ] ) !=
-                 precVec.end() )
+            auto it = std::find( precVec.begin(), precVec.end(), numbers[ j ] );
+            if ( it != precVec.end() )
             {
                allValid = false;
+
+               auto foundElement = numbers[ j ];
+               numbers.erase( numbers.begin() + j );
+
+               // Move index back to recheck stuff
+               --i;
+
+               numbers.insert( numbers.begin() + i + 1, foundElement );
+
+               break;
             }
          }
       }
 
-      if ( allValid == true )
+      if ( allValid == false )
       {
          // Get middle number
          result += std::stoi( numbers[ numbers.size() / 2 ] );
